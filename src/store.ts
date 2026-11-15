@@ -455,8 +455,7 @@ export class MabusabaStore {
 
   getPoll(id: string): PollRow | null {
     const row = this.db.prepare("SELECT * FROM polls WHERE id = ?").get(id) as
-      | Record<string, unknown>
-      | undefined;
+      Record<string, unknown> | undefined;
     if (!row) return null;
     return {
       ...(row as unknown as PollRow),
@@ -587,8 +586,7 @@ export class MabusabaStore {
 
   getTimer(id: string): TimerRow | null {
     const row = this.db.prepare("SELECT * FROM timers WHERE id = ?").get(id) as
-      | TimerRow
-      | undefined;
+      TimerRow | undefined;
     return row ?? null;
   }
 

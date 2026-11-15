@@ -5,6 +5,7 @@
   "description": "Discord bot for the Mabusaba server. Welcome, auto-role, levels, mini-games, moderation, polls, recruitment and timers. Standalone, no connection to p1228 or logbot.",
   "devDependencies": {
     "@types/node": "24.10.0",
+    "prettier": "3.10.1",
     "tsx": "4.20.6",
     "typescript": "5.9.3"
   },
@@ -17,6 +18,8 @@
     "build": "tsc -p tsconfig.json",
     "clear:commands": "tsx src/clear-commands.ts",
     "dev": "tsx src/index.ts",
+    "format": "prettier --write \"src/**/*.ts\" \"package.json\" \"tsconfig.json\" \"ecosystem.config.cjs\" \".github/workflows/*.yml\" \".github/dependabot.yml\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"package.json\" \"tsconfig.json\" \"ecosystem.config.cjs\" \".github/workflows/*.yml\" \".github/dependabot.yml\"",
     "start": "node dist/index.js",
     "sync:commands": "tsx src/sync-commands.ts",
     "test": "node --test dist/test/*.test.js",
