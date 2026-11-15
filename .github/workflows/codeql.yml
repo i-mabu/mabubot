@@ -1,0 +1,64 @@
+# ===== 1. ワークフロー全体設定 =====
+name: CodeQL
+
+# push は main のみに絞り、二重起動を防ぐ。対象パスの変更時だけ実行する。
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "src/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/**"
+  pull_request:
+    paths:
+      - "src/**"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/**"
+  schedule:
+    - cron: "0 3 * * 1"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # ===== 2. コード解析ジョブ =====
+  analyze:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    permissions:
+      contents: read
+      security-events: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Initialize CodeQL
+        uses: github/codeql-action/init@v3
+        with:
+          languages: javascript-typescript
+      - name: Autobuild
+        uses: github/codeql-action/autobuild@v3
+      # Code scanning (Advanced Security) is only available for Organizations,
+      # so it cannot be enabled on this personal private repository. Uploading
+      # results therefore always failed; save the SARIF as an artifact instead.
+      # If this repo moves to an Organization, drop "upload"/"output" below and
+      # the artifact step, and results will go back to the Security tab.
+      - name: Perform CodeQL Analysis
+        uses: github/codeql-action/analyze@v3
+        with:
+          category: /language:javascript-typescript
+          upload: never
+          output: codeql-results
+      - name: Upload CodeQL results (SARIF artifact)
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeql-sarif-javascript-typescript-${{ github.sha }}
+          path: codeql-results
+          if-no-files-found: error
+          retention-days: 7
