@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "discord.js": "14.22.1"
+  },
+  "description": "Discord bot for the Mabusaba server. Welcome, auto-role, levels, mini-games, moderation, polls, recruitment and timers. Standalone, no connection to p1228 or logbot.",
+  "devDependencies": {
+    "@types/node": "24.10.0",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "name": "mabusaba-bot",
+  "private": true,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clear:commands": "tsx src/clear-commands.ts",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "sync:commands": "tsx src/sync-commands.ts",
+    "test": "node --test dist/test/*.test.js",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  },
+  "type": "module",
+  "version": "0.1.0"
+}
