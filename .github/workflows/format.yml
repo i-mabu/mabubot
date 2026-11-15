@@ -1,6 +1,4 @@
-# =======================
-# 1. ワークフロー全体設定
-# =======================
+# ===== 1. ワークフロー全体設定 =====
 name: Format (auto-fix)
 
 # pull_request イベントでは fork の権限問題があるため対象にしない。
@@ -22,9 +20,7 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  # =================
-  # 2. 自動整形ジョブ
-  # =================
+  # ===== 2. 自動整形ジョブ =====
   format:
     runs-on: ubuntu-24.04
     timeout-minutes: 15

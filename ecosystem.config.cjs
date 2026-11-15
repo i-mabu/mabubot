@@ -1,6 +1,4 @@
-// =======
-// 1. 概要
-// =======
+// ===== 1. 概要 =====
 // pm2 ecosystem file for mabusaba.
 //
 // Start with:  pm2 start ecosystem.config.cjs
@@ -18,9 +16,7 @@
 // Node 22 still needs `--experimental-sqlite`. This file adds that
 // flag automatically on Node < 24; on Node 24+ it is not needed.
 
-// =====================
-// 2. 環境変数の読み込み
-// =====================
+// ===== 2. 環境変数の読み込み =====
 const fs = require("node:fs");
 const path = require("node:path");
 
@@ -51,9 +47,7 @@ function loadEnvFile(file) {
   return env;
 }
 
-// =============
-// 3. アプリ設定
-// =============
+// ===== 3. アプリ設定 =====
 const envFromFile = loadEnvFile(path.join(__dirname, ".env"));
 if (!envFromFile.DISCORD_TOKEN || !envFromFile.DISCORD_APPLICATION_ID) {
   console.error(

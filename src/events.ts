@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import {
   ChannelType,
   PermissionFlagsBits,
@@ -20,9 +18,7 @@ import { handleRecruitButton } from "./recruit.js";
 import { sendModLog } from "./mod.js";
 import { formatDuration, randomInt } from "./util.js";
 
-// =======================
-// 2. スパム対策の定数と型
-// =======================
+// ===== 2. スパム対策の定数と型 =====
 // Anti-spam thresholds: 6+ messages in 5s, or 5+ identical
 // messages in 10s, from the same user -> 10-minute timeout.
 const SPAM_WINDOW_MS = 5_000;
@@ -39,9 +35,7 @@ interface RecentMessage {
   channelId: string;
 }
 
-// ===============
-// 3. イベント登録
-// ===============
+// ===== 3. イベント登録 =====
 export function registerEvents(client: Client, store: MabusabaStore): void {
   const recentByUser = new Map<string, RecentMessage[]>();
   const lastAutoTimeout = new Map<string, number>();
@@ -63,14 +57,14 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
   }, 10 * 60_000);
   prune.unref();
 
-  // --- メンバー参加（ウェルカム・自動ロール） ---
+  // ----- 3.1 メンバー参加（ウェルカム・自動ロール） -----
   client.on("guildMemberAdd", async (member) => {
     if (member.user.bot) return;
     await sendWelcome(member, store);
     await applyAutorole(member, store);
   });
 
-  // --- メッセージ（スパム対策・XP） ---
+  // ----- 3.2 メッセージ（スパム対策・XP） -----
   client.on("messageCreate", async (message: Message) => {
     if (!message.guildId || !message.guild || message.author.bot) return;
     if (message.channel.type !== ChannelType.GuildText) return;
@@ -172,7 +166,7 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
     ).catch(() => undefined);
   });
 
-  // --- ボタン操作（投票・募集） ---
+  // ----- 3.3 ボタン操作（投票・募集） -----
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return;
     try {

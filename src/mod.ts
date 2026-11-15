@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import {
   ChannelType,
   GuildMember,
@@ -20,9 +18,7 @@ import {
   replyEmbed,
 } from "./util.js";
 
-// ===========================
-// 2. 定数とモデレーションログ
-// ===========================
+// ===== 2. 定数とモデレーションログ =====
 export const MAX_TIMEOUT_MS = 28 * 24 * 60 * 60 * 1000;
 
 // Send a moderation action to the guild's mod-log channel, if set.
@@ -47,9 +43,7 @@ export async function sendModLog(
     .catch(() => undefined);
 }
 
-// =======================
-// 3. 権限と階層のチェック
-// =======================
+// ===== 3. 権限と階層のチェック =====
 function requireGuild(interaction: ChatInputCommandInteraction): string | null {
   return interaction.guildId;
 }
@@ -103,9 +97,7 @@ async function requireHierarchy(
   return false;
 }
 
-// ===============
-// 4. コマンド処理
-// ===============
+// ===== 4. コマンド処理 =====
 export async function handleModCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,
@@ -126,7 +118,7 @@ export async function handleModCommand(
 
   // /mod log is a subcommand group (set / disable).
 
-  // --- ログ設定 ---
+  // ----- 4.1 ログ設定 -----
   if (group === "log") {
     if (
       !(await requirePerm(
@@ -159,7 +151,7 @@ export async function handleModCommand(
 
   // /mod warn is a subcommand group (add / list).
 
-  // --- 警告 ---
+  // ----- 4.2 警告 -----
   if (group === "warn") {
     if (
       !(await requirePerm(
@@ -214,7 +206,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- タイムアウト ---
+  // ----- 4.3 タイムアウト -----
   if (sub === "timeout") {
     if (
       !(await requirePerm(
@@ -279,7 +271,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- タイムアウト解除 ---
+  // ----- 4.4 タイムアウト解除 -----
   if (sub === "untimeout") {
     if (
       !(await requirePerm(
@@ -330,7 +322,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- キック ---
+  // ----- 4.5 キック -----
   if (sub === "kick") {
     if (
       !(await requirePerm(
@@ -384,7 +376,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- バン ---
+  // ----- 4.6 バン -----
   if (sub === "ban") {
     if (
       !(await requirePerm(
@@ -436,7 +428,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- バン解除 ---
+  // ----- 4.7 バン解除 -----
   if (sub === "unban") {
     if (
       !(await requirePerm(
@@ -475,7 +467,7 @@ export async function handleModCommand(
     return;
   }
 
-  // --- メッセージ一括削除 ---
+  // ----- 4.8 メッセージ一括削除 -----
   if (sub === "clear") {
     if (
       !(await requirePerm(

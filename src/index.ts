@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import { Client, EmbedBuilder, GatewayIntentBits, Partials } from "discord.js";
 import { MabusabaStore } from "./store.js";
 import { handleChatInputCommand } from "./commands.js";
@@ -11,9 +9,7 @@ import { rescheduleRecruits } from "./recruit.js";
 import { rescheduleTimers } from "./timer.js";
 import { EMBED_COLOR_ERROR, EMBED_FOOTER } from "./util.js";
 
-// =========
-// 2. 初期化
-// =========
+// ===== 2. 初期化 =====
 const token = process.env.DISCORD_TOKEN?.trim();
 if (!token) {
   console.error(
@@ -43,9 +39,7 @@ const client = new Client({
   ],
 });
 
-// ===============
-// 3. 起動時の処理
-// ===============
+// ===== 3. 起動時の処理 =====
 client.once("ready", () => {
   console.log(`Logged in as ${client.user?.tag}`);
   // Watching status: stored /watching text, else WATCHING_TEXT env, else default.
@@ -60,9 +54,7 @@ client.once("ready", () => {
   // This keeps startup from resurrecting commands deleted by a sync.
 });
 
-// =======================
-// 4. コマンド実行時の処理
-// =======================
+// ===== 4. コマンド実行時の処理 =====
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
   try {
@@ -90,9 +82,7 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-// =========================
-// 5. イベント登録と終了処理
-// =========================
+// ===== 5. イベント登録と終了処理 =====
 registerEvents(client, store);
 
 process.on("SIGINT", () => {

@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -19,9 +17,7 @@ import {
   replyEmbed,
 } from "./util.js";
 
-// =============
-// 2. 投票の表示
-// =============
+// ===== 2. 投票の表示 =====
 export function pollEmbed(
   poll: PollRow,
   counts: number[],
@@ -62,9 +58,7 @@ export function pollButtons(
   return row;
 }
 
-// =========================
-// 3. 締め切りとスケジュール
-// =========================
+// ===== 3. 締め切りとスケジュール =====
 // Close a poll: mark closed in SQLite and edit the message to show
 // the final result with disabled buttons.
 export async function closePoll(
@@ -121,9 +115,7 @@ export function reschedulePolls(client: Client, store: MabusabaStore): void {
     schedulePollClose(client, store, poll);
 }
 
-// =======================
-// 4. コマンドとボタン処理
-// =======================
+// ===== 4. コマンドとボタン処理 =====
 export async function handlePollCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,
@@ -181,7 +173,7 @@ export async function handlePollCommand(
 // Button votes: one vote per person, changeable. The embed updates
 // immediately with the new counts.
 
-// --- 投票ボタン ---
+// ----- 4.1 投票ボタン -----
 export async function handlePollButton(
   interaction: ButtonInteraction,
   store: MabusabaStore,

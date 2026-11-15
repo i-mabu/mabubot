@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import type {
   ChatInputCommandInteraction,
   Client,
@@ -17,9 +15,7 @@ import {
 } from "./util.js";
 import { awardXp } from "./level.js";
 
-// ===============
-// 2. 数当てゲーム
-// ===============
+// ===== 2. 数当てゲーム =====
 // Number-guessing games live in memory only (per guild + channel +
 // user), as specified: a restart ends any game in progress.
 interface NumberGame {
@@ -60,9 +56,7 @@ function numberGameKey(
   return `${guildId}:${channelId}:${userId}`;
 }
 
-// =============
-// 3. じゃんけん
-// =============
+// ===== 3. じゃんけん =====
 const JANKEN = {
   goo: { label: "グー", emoji: "✊" },
   choki: { label: "チョキ", emoji: "✌️" },
@@ -86,9 +80,7 @@ function jankenWinner(
   return "lose";
 }
 
-// ===========
-// 4. スロット
-// ===========
+// ===== 4. スロット =====
 const SLOT_SYMBOLS = ["🍒", "🍋", "🍇", "⭐", "🔔", "💎"];
 
 function slotResult(): {
@@ -103,9 +95,7 @@ function slotResult(): {
   return { symbols, win, jackpot: win && symbols[0] === "💎" };
 }
 
-// =====================
-// 5. ゲームコマンド処理
-// =====================
+// ===== 5. ゲームコマンド処理 =====
 export async function handleGameCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,
@@ -139,7 +129,7 @@ export async function handleGameCommand(
     }).catch(() => undefined);
   };
 
-  // --- じゃんけん ---
+  // ----- 5.1 じゃんけん -----
   if (sub === "janken") {
     const choice = interaction.options.getString(
       "choice",
@@ -164,7 +154,7 @@ export async function handleGameCommand(
     return;
   }
 
-  // --- コイン ---
+  // ----- 5.2 コイン -----
   if (sub === "coin") {
     const heads = Math.random() < 0.5;
     await replyEmbed(
@@ -177,7 +167,7 @@ export async function handleGameCommand(
     return;
   }
 
-  // --- スロット ---
+  // ----- 5.3 スロット -----
   if (sub === "slot") {
     const { symbols, win, jackpot } = slotResult();
     const line = symbols.join(" | ");
@@ -192,7 +182,7 @@ export async function handleGameCommand(
     return;
   }
 
-  // --- 数当てゲーム ---
+  // ----- 5.4 数当てゲーム -----
   if (group === "number") {
     // /game number is a subcommand group: start / guess.
     const leaf = interaction.options.getSubcommand(true);
@@ -287,8 +277,6 @@ export async function handleGameCommand(
   );
 }
 
-// =======================
-// 6. テスト用エクスポート
-// =======================
+// ===== 6. テスト用エクスポート =====
 // Exported for tests (pure logic, no Discord needed).
 export { jankenWinner, slotResult };

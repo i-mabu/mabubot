@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import {
   ChannelType,
   PermissionFlagsBits,
@@ -28,14 +26,12 @@ import { handleRecruitCommand } from "./recruit.js";
 import { handleTimerCommand } from "./timer.js";
 import { handleWatchingCommand } from "./watching.js";
 
-// ===============
-// 2. コマンド定義
-// ===============
+// ===== 2. コマンド定義 =====
 // Every command definition lives here so sync-commands.ts can import
 // the same list the bot handles. Required options always come before
 // optional ones (Discord rejects required-after-optional with 50035).
 
-// --- ウェルカム・自動ロール ---
+// ----- 2.1 ウェルカム・自動ロール -----
 export const welcomeCommand = new SlashCommandBuilder()
   .setName("welcome")
   .setDescription("参加時の歓迎メッセージを設定します")
@@ -104,7 +100,7 @@ export const autoroleCommand = new SlashCommandBuilder()
     sub.setName("show").setDescription("現在の自動役職を表示します"),
   );
 
-// --- レベル・ランク ---
+// ----- 2.2 レベル・ランク -----
 export const rankCommand = new SlashCommandBuilder()
   .setName("rank")
   .setDescription("自分の（または指定した人の）レベルとXPを表示します")
@@ -163,7 +159,7 @@ export const levelCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- ゲーム ---
+// ----- 2.3 ゲーム -----
 export const gameCommand = new SlashCommandBuilder()
   .setName("game")
   .setDescription("ミニゲームで遊びます（勝利でXPがもらえます）")
@@ -213,7 +209,7 @@ export const gameCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- モデレーション ---
+// ----- 2.4 モデレーション -----
 export const modCommand = new SlashCommandBuilder()
   .setName("mod")
   .setDescription("モデレーション（警告・タイムアウト・キック・BAN・削除）")
@@ -349,7 +345,7 @@ export const modCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- 投票 ---
+// ----- 2.5 投票 -----
 export const pollCommand = new SlashCommandBuilder()
   .setName("poll")
   .setDescription("投票を作成します")
@@ -396,7 +392,7 @@ export const pollCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- 募集 ---
+// ----- 2.6 募集 -----
 export const recruitCommand = new SlashCommandBuilder()
   .setName("recruit")
   .setDescription("募集を作成します")
@@ -430,7 +426,7 @@ export const recruitCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- タイマー ---
+// ----- 2.7 タイマー -----
 export const timerCommand = new SlashCommandBuilder()
   .setName("timer")
   .setDescription("タイマー（リマインダー）を設定します")
@@ -469,7 +465,7 @@ export const timerCommand = new SlashCommandBuilder()
       ),
   );
 
-// --- ステータス表示 ---
+// ----- 2.8 ステータス表示 -----
 export const watchingCommand = new SlashCommandBuilder()
   .setName("watching")
   .setDescription("視聴中ステータス（○○を視聴中）を設定します")
@@ -495,7 +491,7 @@ export const watchingCommand = new SlashCommandBuilder()
       .setDescription("視聴中ステータスを既定（まぶさばを見守り中）に戻します"),
   );
 
-// --- その他 ---
+// ----- 2.9 その他 -----
 export const pingCommand = new SlashCommandBuilder()
   .setName("ping")
   .setDescription("まぶさばボットの応答状態を確認します");
@@ -504,9 +500,7 @@ export const helpCommand = new SlashCommandBuilder()
   .setName("help")
   .setDescription("まぶさばボットのコマンド一覧を表示します");
 
-// =========================
-// 3. コマンド一覧とヘルプ文
-// =========================
+// ===== 3. コマンド一覧とヘルプ文 =====
 export const allCommands = [
   welcomeCommand,
   autoroleCommand,
@@ -532,9 +526,7 @@ const HELP_TEXT = [
   "**⚙️ その他**\n`/watching set|show|reset`（管理者） ／ `/ping`",
 ].join("\n\n");
 
-// ===============
-// 4. コマンド処理
-// ===============
+// ===== 4. コマンド処理 =====
 export async function handleHelpCommand(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {

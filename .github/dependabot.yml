@@ -1,11 +1,7 @@
-# ===========
-# 1. 全体設定
-# ===========
+# ===== 1. 全体設定 =====
 version: 2
 updates:
-  # ============
-  # 2. npmの更新
-  # ============
+  # ===== 2. npmの更新 =====
   - package-ecosystem: npm
     directory: /
     schedule:
@@ -18,9 +14,7 @@ updates:
           - minor
           - patch
 
-  # =======================
-  # 3. GitHub Actionsの更新
-  # =======================
+  # ===== 3. GitHub Actionsの更新 =====
   - package-ecosystem: github-actions
     directory: /
     schedule:

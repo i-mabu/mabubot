@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import type { ChatInputCommandInteraction, Client } from "discord.js";
 import type { MabusabaStore, TimerRow } from "./store.js";
 import {
@@ -16,9 +14,7 @@ import {
   replyEmbed,
 } from "./util.js";
 
-// ===============================
-// 2. タイマーの発火とスケジュール
-// ===============================
+// ===== 2. タイマーの発火とスケジュール =====
 const timerHandles = new Map<string, NodeJS.Timeout>();
 
 // Fire a timer: mention the user in the original channel, then
@@ -71,9 +67,7 @@ export function rescheduleTimers(client: Client, store: MabusabaStore): void {
   for (const timer of store.listTimers()) scheduleTimer(client, store, timer);
 }
 
-// ===============
-// 3. コマンド処理
-// ===============
+// ===== 3. コマンド処理 =====
 export async function handleTimerCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,
@@ -91,7 +85,7 @@ export async function handleTimerCommand(
   }
   const sub = interaction.options.getSubcommand();
 
-  // --- 一覧 ---
+  // ----- 3.1 一覧 -----
   if (sub === "list") {
     const timers = store.listTimers(guildId);
     if (!timers.length) {
@@ -116,7 +110,7 @@ export async function handleTimerCommand(
     return;
   }
 
-  // --- キャンセル ---
+  // ----- 3.2 キャンセル -----
   if (sub === "cancel") {
     const id = interaction.options.getString("id", true).trim();
     const timer = store.getTimer(id);

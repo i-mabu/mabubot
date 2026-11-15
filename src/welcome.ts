@@ -1,6 +1,4 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import {
   ChannelType,
   type ChatInputCommandInteraction,
@@ -15,9 +13,7 @@ import {
   replyEmbed,
 } from "./util.js";
 
-// =======================
-// 2. ウェルカムメッセージ
-// =======================
+// ===== 2. ウェルカムメッセージ =====
 export function renderWelcomeMessage(
   template: string | null,
   member: GuildMember,
@@ -61,9 +57,7 @@ export async function sendWelcome(
 
 // Maximum autoroles per guild, to keep the list sane.
 
-// =============
-// 3. 自動ロール
-// =============
+// ===== 3. 自動ロール =====
 export const MAX_AUTOROLES = 10;
 
 // Apply the autoroles on GuildMemberAdd. Failures (missing
@@ -95,9 +89,7 @@ export async function applyAutorole(
   }
 }
 
-// ===============
-// 4. コマンド処理
-// ===============
+// ===== 4. コマンド処理 =====
 export async function handleWelcomeCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -184,7 +176,7 @@ export async function handleWelcomeCommand(
   );
 }
 
-// --- 自動ロールのコマンド処理 ---
+// ----- 4.1 自動ロールのコマンド処理 -----
 export async function handleAutoroleCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,

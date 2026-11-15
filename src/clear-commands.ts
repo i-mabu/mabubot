@@ -1,11 +1,7 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import { REST, Routes } from "discord.js";
 
-// ===============
-// 2. 概要と使い方
-// ===============
+// ===== 2. 概要と使い方 =====
 // Delete ALL application commands for one application.
 //
 // Use this when old commands remain after `npm run sync:commands`.
@@ -28,9 +24,7 @@ import { REST, Routes } from "discord.js";
 // EnvironmentFile. This file does NOT read .env (no dotenv dependency).
 // DISCORD_GUILD_ID / DISCORD_GUILD_IDS (comma-separated) is optional.
 
-// =====================
-// 3. 環境変数の読み込み
-// =====================
+// ===== 3. 環境変数の読み込み =====
 const token = process.env.DISCORD_TOKEN?.trim();
 const applicationId = process.env.DISCORD_APPLICATION_ID?.trim();
 if (!token || !applicationId) {
@@ -46,9 +40,7 @@ const guildIds = [
   ),
 ];
 
-// ===================
-// 4. コマンド削除処理
-// ===================
+// ===== 4. コマンド削除処理 =====
 const rest = new REST({ version: "10" }).setToken(token);
 
 async function clearScope(label: string, route: `/${string}`): Promise<void> {
@@ -72,9 +64,7 @@ async function clearScope(label: string, route: `/${string}`): Promise<void> {
   );
 }
 
-// =======
-// 5. 実行
-// =======
+// ===== 5. 実行 =====
 await clearScope("Global commands", Routes.applicationCommands(applicationId));
 for (const guildId of guildIds) {
   await clearScope(

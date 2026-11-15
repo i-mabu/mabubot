@@ -1,12 +1,8 @@
-// =============
-// 1. インポート
-// =============
+// ===== 1. インポート =====
 import { randomBytes } from "node:crypto";
 import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 
-// =====================
-// 2. 埋め込みの共通部品
-// =====================
+// ===== 2. 埋め込みの共通部品 =====
 // Shared look for every reply: embeds, never plain text.
 export const EMBED_COLOR_INFO = 0x5865f2;
 export const EMBED_COLOR_SUCCESS = 0x57f287;
@@ -49,9 +45,7 @@ export async function replyEmbed(
   }
 }
 
-// ===================
-// 3. 時刻・期間の変換
-// ===================
+// ===== 3. 時刻・期間の変換 =====
 export function formatDuration(ms: number): string {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
   const days = Math.floor(totalSeconds / 86400);
@@ -84,7 +78,7 @@ export function relativeTimestamp(ms: number): string {
 // `30秒` / `10分` / `2時間` / `3日` / `1週間`, and combinations
 // like `1時間30分` / `1d12h`. Returns ms, or null when unusable.
 
-// --- 期間のパース ---
+// ----- 3.1 期間のパース -----
 export function parseDurationMs(input: string): number | null {
   const text = input
     .trim()
@@ -120,9 +114,7 @@ export function parseDurationMs(input: string): number | null {
   return total;
 }
 
-// ===================
-// 4. 日本時間ヘルパー
-// ===================
+// ===== 4. 日本時間ヘルパー =====
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
 function jstParts(ms: number): {
@@ -187,7 +179,7 @@ function jstToMs(
 //   - ISO 8601: `2026-11-14T21:00:00+09:00`
 // Returns the epoch ms, or null when unusable or not in the future.
 
-// --- 時刻入力のパース ---
+// ----- 4.1 時刻入力のパース -----
 export function parseTimeInput(input: string, now = Date.now()): number | null {
   const text = input
     .trim()
@@ -286,9 +278,7 @@ export function parseTimeInput(input: string, now = Date.now()): number | null {
   return ms;
 }
 
-// =================
-// 5. レベル・XP計算
-// =================
+// ===== 5. レベル・XP計算 =====
 // xpForLevel(n): XP needed to go from level n to level n+1.
 export function xpForLevel(n: number): number {
   return 5 * n * n + 50 * n + 100;
@@ -324,9 +314,7 @@ export function levelFromTotalXp(totalXp: number): LevelInfo {
   }
 }
 
-// =====================
-// 6. 汎用ユーティリティ
-// =====================
+// ===== 6. 汎用ユーティリティ =====
 export function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
