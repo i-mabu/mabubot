@@ -72,7 +72,8 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
     const userId = message.author.id;
     const now = Date.now();
 
-    // --- Anti-spam (runs before XP so spam never earns XP) ---
+    // ----- 3.2.1 スパム対策 -----
+    // Runs before XP so spam never earns XP.
     const key = `${guildId}:${userId}`;
     const recent = (recentByUser.get(key) ?? []).filter(
       (r) => now - r.atMs <= SPAM_SAME_WINDOW_MS,
@@ -152,7 +153,8 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
       }
     }
 
-    // --- XP: 15-25 per message, 60s cooldown per user per guild ---
+    // ----- 3.2.2 XP付与 -----
+    // 15-25 per message, 60s cooldown per user per guild.
     const row = store.getXp(guildId, userId);
     if (row && now - row.last_xp_at_ms < XP_COOLDOWN_MS) return;
     const amount = randomInt(XP_PER_MESSAGE_MIN, XP_PER_MESSAGE_MAX);

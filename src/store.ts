@@ -201,9 +201,8 @@ export class MabusabaStore {
     `);
   }
 
-  // --- settings (bot-wide) ---
+  // ----- 3.2 設定（ボット全体） -----
 
-  // ----- 3.2 設定 -----
   getSetting(key: string): string | null {
     const row = this.db
       .prepare("SELECT value FROM settings WHERE key = ?")
@@ -224,9 +223,8 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM settings WHERE key = ?").run(key);
   }
 
-  // --- welcome ---
+  // ----- 3.3 ウェルカム -----
 
-  // ----- 3.3 ウェルカム・自動ロール -----
   getWelcome(guildId: string): WelcomeRow | null {
     const row = this.db
       .prepare(
@@ -249,7 +247,7 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM welcome WHERE guild_id = ?").run(guildId);
   }
 
-  // --- autorole (multiple roles per guild) ---
+  // ----- 3.4 自動ロール（ギルドごとに複数） -----
   getAutoroles(guildId: string): string[] {
     const rows = this.db
       .prepare(
@@ -282,9 +280,8 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM autorole WHERE guild_id = ?").run(guildId);
   }
 
-  // --- XP / levels ---
+  // ----- 3.5 XP・レベル -----
 
-  // ----- 3.4 XP・レベル -----
   getXp(guildId: string, userId: string): XpRow | null {
     const row = this.db
       .prepare(
@@ -368,9 +365,8 @@ export class MabusabaStore {
     return row ? row.n + 1 : null;
   }
 
-  // --- level rewards ---
+  // ----- 3.6 レベル報酬 -----
 
-  // ----- 3.5 レベル報酬 -----
   getLevelRewards(guildId: string): LevelRewardRow[] {
     return this.db
       .prepare(
@@ -394,9 +390,8 @@ export class MabusabaStore {
       .run(guildId, level);
   }
 
-  // --- warns ---
+  // ----- 3.7 警告 -----
 
-  // ----- 3.6 警告 -----
   addWarn(
     guildId: string,
     userId: string,
@@ -429,9 +424,8 @@ export class MabusabaStore {
     return row.n;
   }
 
-  // --- mod log channel ---
+  // ----- 3.8 モデレーションログ -----
 
-  // ----- 3.7 モデレーションログ -----
   getModLog(guildId: string): string | null {
     const row = this.db
       .prepare("SELECT channel_id FROM mod_log WHERE guild_id = ?")
@@ -452,9 +446,8 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM mod_log WHERE guild_id = ?").run(guildId);
   }
 
-  // --- polls ---
+  // ----- 3.9 投票 -----
 
-  // ----- 3.8 投票 -----
   createPoll(poll: Omit<PollRow, "closed">): void {
     this.db
       .prepare(
@@ -525,9 +518,8 @@ export class MabusabaStore {
     return row.n;
   }
 
-  // --- recruits ---
+  // ----- 3.10 募集 -----
 
-  // ----- 3.9 募集 -----
   createRecruit(recruit: Omit<RecruitRow, "closed">): void {
     this.db
       .prepare(
@@ -588,9 +580,8 @@ export class MabusabaStore {
     return rows.map((r) => r.user_id);
   }
 
-  // --- timers ---
+  // ----- 3.11 タイマー -----
 
-  // ----- 3.10 タイマー -----
   createTimer(timer: TimerRow): void {
     this.db
       .prepare(
@@ -628,7 +619,7 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM timers WHERE id = ?").run(id);
   }
 
-  // ----- 3.11 終了処理 -----
+  // ----- 3.12 終了処理 -----
   close(): void {
     this.db.close();
   }
