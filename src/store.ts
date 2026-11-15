@@ -1,8 +1,14 @@
+// =============
+// 1. インポート
+// =============
 import { mkdirSync } from "node:fs";
 import { join } from "node:path";
 import { DatabaseSync } from "node:sqlite";
 import { levelFromTotalXp } from "./util.js";
 
+// ===================
+// 2. 行データの型定義
+// ===================
 export interface WelcomeRow {
   guild_id: string;
   channel_id: string;
@@ -69,6 +75,10 @@ export interface TimerRow {
 
 // SQLite store for the whole bot (Node built-in node:sqlite, no
 // native dependency). One file: data/mabusaba.db
+
+// =============
+// 3. ストア本体
+// =============
 export class MabusabaStore {
   private db: DatabaseSync;
 

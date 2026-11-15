@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync } from "node:fs";
@@ -20,10 +23,17 @@ import {
 import { MabusabaStore } from "../store.js";
 
 // Fixed "now": 2026-11-14 12:00 JST = 03:00 UTC.
+
+// ===================
+// 2. テスト用ヘルパー
+// ===================
 const NOW = Date.UTC(2026, 10, 14, 3, 0, 0);
 const jst = (h: number, m = 0, day = 14): number =>
   Date.UTC(2026, 10, day, h - 9, m, 0);
 
+// =============
+// 3. XP・レベル
+// =============
 describe("XP / levels", () => {
   it("xpForLevel matches 5n^2 + 50n + 100", () => {
     assert.equal(xpForLevel(0), 100);
@@ -81,6 +91,9 @@ describe("XP / levels", () => {
   });
 });
 
+// ==================
+// 4. parseDurationMs
+// ==================
 describe("parseDurationMs", () => {
   it("parses English and Japanese units", () => {
     assert.equal(parseDurationMs("10m"), 600_000);
@@ -106,6 +119,9 @@ describe("parseDurationMs", () => {
   });
 });
 
+// =================
+// 5. parseTimeInput
+// =================
 describe("parseTimeInput (future, JST)", () => {
   it("parses relative future times", () => {
     assert.equal(parseTimeInput("30分後", NOW), NOW + 1_800_000);
@@ -157,6 +173,9 @@ describe("parseTimeInput (future, JST)", () => {
   });
 });
 
+// =============
+// 6. generateId
+// =============
 describe("generateId", () => {
   it("produces unique ids", () => {
     const ids = new Set(Array.from({ length: 1000 }, () => generateId()));
@@ -164,6 +183,9 @@ describe("generateId", () => {
   });
 });
 
+// =======================
+// 7. joinLinesWithinLimit
+// =======================
 describe("joinLinesWithinLimit", () => {
   it("keeps short lists intact and truncates long ones", () => {
     assert.deepEqual(joinLinesWithinLimit(["a", "b"], 100), {
@@ -177,6 +199,9 @@ describe("joinLinesWithinLimit", () => {
   });
 });
 
+// =========================
+// 8. 数当てゲームの有効期限
+// =========================
 describe("number game expiry", () => {
   it("expires games older than the TTL", () => {
     const game = { answer: 42, attempts: 0, maxAttempts: 10, startedAtMs: NOW };
@@ -185,6 +210,9 @@ describe("number game expiry", () => {
   });
 });
 
+// =============
+// 9. じゃんけん
+// =============
 describe("janken", () => {
   it("goo beats choki, loses to paa, draws itself", () => {
     assert.equal(jankenWinner("goo", "choki"), "win");
@@ -195,6 +223,9 @@ describe("janken", () => {
   });
 });
 
+// ==========
+// 10. ストア
+// ==========
 describe("store (SQLite)", () => {
   it("welcome, XP, warns, polls and timers round-trip", () => {
     const dir = mkdtempSync(join(tmpdir(), "mabusaba-test-"));

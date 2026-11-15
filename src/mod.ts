@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import {
   ChannelType,
   GuildMember,
@@ -17,6 +20,9 @@ import {
   replyEmbed,
 } from "./util.js";
 
+// ===========================
+// 2. 定数とモデレーションログ
+// ===========================
 export const MAX_TIMEOUT_MS = 28 * 24 * 60 * 60 * 1000;
 
 // Send a moderation action to the guild's mod-log channel, if set.
@@ -41,6 +47,9 @@ export async function sendModLog(
     .catch(() => undefined);
 }
 
+// =======================
+// 3. 権限と階層のチェック
+// =======================
 function requireGuild(interaction: ChatInputCommandInteraction): string | null {
   return interaction.guildId;
 }
@@ -94,6 +103,9 @@ async function requireHierarchy(
   return false;
 }
 
+// ===============
+// 4. コマンド処理
+// ===============
 export async function handleModCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,

@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import {
   ChannelType,
   PermissionFlagsBits,
@@ -17,6 +20,9 @@ import { handleRecruitButton } from "./recruit.js";
 import { sendModLog } from "./mod.js";
 import { formatDuration, randomInt } from "./util.js";
 
+// =======================
+// 2. スパム対策の定数と型
+// =======================
 // Anti-spam thresholds: 6+ messages in 5s, or 5+ identical
 // messages in 10s, from the same user -> 10-minute timeout.
 const SPAM_WINDOW_MS = 5_000;
@@ -33,6 +39,9 @@ interface RecentMessage {
   channelId: string;
 }
 
+// ===============
+// 3. イベント登録
+// ===============
 export function registerEvents(client: Client, store: MabusabaStore): void {
   const recentByUser = new Map<string, RecentMessage[]>();
   const lastAutoTimeout = new Map<string, number>();

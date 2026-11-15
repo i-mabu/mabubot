@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
-# ===== 1. 整形チェック =====
+# ===============
+# 1. 整形チェック
+# ===============
 set -euo pipefail
 if [ -x node_modules/.bin/prettier ]; then
   npm run format:check

@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import {
   ActivityType,
   type ChatInputCommandInteraction,
@@ -6,6 +9,9 @@ import {
 import type { MabusabaStore } from "./store.js";
 import { EMBED_COLOR_SUCCESS, replyEmbed } from "./util.js";
 
+// ===========================
+// 2. ステータス文の解決と適用
+// ===========================
 // Default Watching text. Overridden by WATCHING_TEXT env, then by /watching set (stored in SQLite).
 export const DEFAULT_WATCHING_TEXT = "まぶさばを見守り中";
 export const WATCHING_SETTING_KEY = "watching_text";
@@ -24,6 +30,9 @@ export function applyWatching(client: Client, store: MabusabaStore): void {
   });
 }
 
+// ===============
+// 3. コマンド処理
+// ===============
 export async function handleWatchingCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,

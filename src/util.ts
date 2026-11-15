@@ -1,6 +1,12 @@
+// =============
+// 1. インポート
+// =============
 import { randomBytes } from "node:crypto";
 import { EmbedBuilder, type ChatInputCommandInteraction } from "discord.js";
 
+// =====================
+// 2. 埋め込みの共通部品
+// =====================
 // Shared look for every reply: embeds, never plain text.
 export const EMBED_COLOR_INFO = 0x5865f2;
 export const EMBED_COLOR_SUCCESS = 0x57f287;
@@ -43,6 +49,9 @@ export async function replyEmbed(
   }
 }
 
+// ===================
+// 3. 時刻・期間の変換
+// ===================
 export function formatDuration(ms: number): string {
   const totalSeconds = Math.max(0, Math.floor(ms / 1000));
   const days = Math.floor(totalSeconds / 86400);
@@ -109,7 +118,9 @@ export function parseDurationMs(input: string): number | null {
   return total;
 }
 
-// --- Japan-time helpers (JST, UTC+9) ---
+// ===================
+// 4. 日本時間ヘルパー
+// ===================
 const JST_OFFSET_MS = 9 * 60 * 60 * 1000;
 
 function jstParts(ms: number): {
@@ -271,7 +282,9 @@ export function parseTimeInput(input: string, now = Date.now()): number | null {
   return ms;
 }
 
-// --- Levels / XP ---
+// =================
+// 5. レベル・XP計算
+// =================
 // xpForLevel(n): XP needed to go from level n to level n+1.
 export function xpForLevel(n: number): number {
   return 5 * n * n + 50 * n + 100;
@@ -307,6 +320,9 @@ export function levelFromTotalXp(totalXp: number): LevelInfo {
   }
 }
 
+// =====================
+// 6. 汎用ユーティリティ
+// =====================
 export function randomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }

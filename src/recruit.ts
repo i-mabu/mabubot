@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import {
   ActionRowBuilder,
   ButtonBuilder,
@@ -19,6 +22,9 @@ import {
   replyEmbed,
 } from "./util.js";
 
+// =============
+// 2. 募集の表示
+// =============
 export function recruitEmbed(
   recruit: RecruitRow,
   members: string[],
@@ -65,6 +71,9 @@ export function recruitButtons(
   );
 }
 
+// =========================
+// 3. 締め切りとスケジュール
+// =========================
 export async function closeRecruit(
   client: Client,
   store: MabusabaStore,
@@ -128,6 +137,9 @@ export function rescheduleRecruits(client: Client, store: MabusabaStore): void {
     scheduleRecruitClose(client, store, recruit);
 }
 
+// =======================
+// 4. コマンドとボタン処理
+// =======================
 export async function handleRecruitCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,

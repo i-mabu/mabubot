@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import {
   ChannelType,
   PermissionFlagsBits,
@@ -25,6 +28,9 @@ import { handleRecruitCommand } from "./recruit.js";
 import { handleTimerCommand } from "./timer.js";
 import { handleWatchingCommand } from "./watching.js";
 
+// ===============
+// 2. コマンド定義
+// ===============
 // Every command definition lives here so sync-commands.ts can import
 // the same list the bot handles. Required options always come before
 // optional ones (Discord rejects required-after-optional with 50035).
@@ -489,6 +495,9 @@ export const helpCommand = new SlashCommandBuilder()
   .setName("help")
   .setDescription("まぶさばボットのコマンド一覧を表示します");
 
+// =========================
+// 3. コマンド一覧とヘルプ文
+// =========================
 export const allCommands = [
   welcomeCommand,
   autoroleCommand,
@@ -514,6 +523,9 @@ const HELP_TEXT = [
   "**⚙️ その他**\n`/watching set|show|reset`（管理者） ／ `/ping`",
 ].join("\n\n");
 
+// ===============
+// 4. コマンド処理
+// ===============
 export async function handleHelpCommand(
   interaction: ChatInputCommandInteraction,
 ): Promise<void> {

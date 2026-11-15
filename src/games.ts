@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import type {
   ChatInputCommandInteraction,
   Client,
@@ -14,6 +17,9 @@ import {
 } from "./util.js";
 import { awardXp } from "./level.js";
 
+// ===============
+// 2. 数当てゲーム
+// ===============
 // Number-guessing games live in memory only (per guild + channel +
 // user), as specified: a restart ends any game in progress.
 interface NumberGame {
@@ -54,6 +60,9 @@ function numberGameKey(
   return `${guildId}:${channelId}:${userId}`;
 }
 
+// =============
+// 3. じゃんけん
+// =============
 const JANKEN = {
   goo: { label: "グー", emoji: "✊" },
   choki: { label: "チョキ", emoji: "✌️" },
@@ -77,6 +86,9 @@ function jankenWinner(
   return "lose";
 }
 
+// ===========
+// 4. スロット
+// ===========
 const SLOT_SYMBOLS = ["🍒", "🍋", "🍇", "⭐", "🔔", "💎"];
 
 function slotResult(): {
@@ -91,6 +103,9 @@ function slotResult(): {
   return { symbols, win, jackpot: win && symbols[0] === "💎" };
 }
 
+// =====================
+// 5. ゲームコマンド処理
+// =====================
 export async function handleGameCommand(
   interaction: ChatInputCommandInteraction,
   client: Client,
@@ -268,5 +283,8 @@ export async function handleGameCommand(
   );
 }
 
+// =======================
+// 6. テスト用エクスポート
+// =======================
 // Exported for tests (pure logic, no Discord needed).
 export { jankenWinner, slotResult };

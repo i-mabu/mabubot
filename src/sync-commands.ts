@@ -1,6 +1,12 @@
+// =============
+// 1. インポート
+// =============
 import { REST, Routes } from "discord.js";
 import { allCommands } from "./commands.js";
 
+// =======
+// 2. 概要
+// =======
 // Overwrite-sync for application commands.
 //
 // `npm run sync:commands` is the ONLY place commands are registered.
@@ -18,6 +24,10 @@ import { allCommands } from "./commands.js";
 // Env vars (DISCORD_TOKEN / DISCORD_APPLICATION_ID) must be exported in
 // the shell or supplied via systemd EnvironmentFile. This file does NOT
 // read .env (no dotenv dependency).
+
+// =====================
+// 3. 環境変数の読み込み
+// =====================
 const token = process.env.DISCORD_TOKEN?.trim();
 const applicationId = process.env.DISCORD_APPLICATION_ID?.trim();
 if (!token || !applicationId) {
@@ -25,6 +35,9 @@ if (!token || !applicationId) {
   process.exit(1);
 }
 
+// ===========
+// 4. 同期処理
+// ===========
 const desired = allCommands.map((c) => c.toJSON());
 const desiredNames = desired.map((c) => c.name).sort();
 const rest = new REST({ version: "10" }).setToken(token);

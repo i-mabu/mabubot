@@ -1,3 +1,6 @@
+// =============
+// 1. インポート
+// =============
 import type {
   ChatInputCommandInteraction,
   Client,
@@ -15,6 +18,9 @@ import {
   totalXpForLevel,
 } from "./util.js";
 
+// =================
+// 2. XPの定数と付与
+// =================
 export const XP_PER_MESSAGE_MIN = 15;
 export const XP_PER_MESSAGE_MAX = 25;
 export const XP_COOLDOWN_MS = 60_000;
@@ -79,6 +85,9 @@ export async function awardXp(
   return { leveledUp: true, oldLevel, newLevel, totalXp: after.xp };
 }
 
+// =====================
+// 3. レベル表示ヘルパー
+// =====================
 function progressBar(into: number, needed: number, width = 10): string {
   const filled = Math.round((into / needed) * width);
   return (
@@ -87,6 +96,9 @@ function progressBar(into: number, needed: number, width = 10): string {
   );
 }
 
+// ===============
+// 4. コマンド処理
+// ===============
 export async function handleRankCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
