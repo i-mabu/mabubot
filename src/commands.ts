@@ -35,6 +35,7 @@ import { handleWatchingCommand } from "./watching.js";
 // the same list the bot handles. Required options always come before
 // optional ones (Discord rejects required-after-optional with 50035).
 
+// --- ウェルカム・自動ロール ---
 export const welcomeCommand = new SlashCommandBuilder()
   .setName("welcome")
   .setDescription("参加時の歓迎メッセージを設定します")
@@ -103,6 +104,7 @@ export const autoroleCommand = new SlashCommandBuilder()
     sub.setName("show").setDescription("現在の自動役職を表示します"),
   );
 
+// --- レベル・ランク ---
 export const rankCommand = new SlashCommandBuilder()
   .setName("rank")
   .setDescription("自分の（または指定した人の）レベルとXPを表示します")
@@ -161,6 +163,7 @@ export const levelCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- ゲーム ---
 export const gameCommand = new SlashCommandBuilder()
   .setName("game")
   .setDescription("ミニゲームで遊びます（勝利でXPがもらえます）")
@@ -210,6 +213,7 @@ export const gameCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- モデレーション ---
 export const modCommand = new SlashCommandBuilder()
   .setName("mod")
   .setDescription("モデレーション（警告・タイムアウト・キック・BAN・削除）")
@@ -345,6 +349,7 @@ export const modCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- 投票 ---
 export const pollCommand = new SlashCommandBuilder()
   .setName("poll")
   .setDescription("投票を作成します")
@@ -391,6 +396,7 @@ export const pollCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- 募集 ---
 export const recruitCommand = new SlashCommandBuilder()
   .setName("recruit")
   .setDescription("募集を作成します")
@@ -424,6 +430,7 @@ export const recruitCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- タイマー ---
 export const timerCommand = new SlashCommandBuilder()
   .setName("timer")
   .setDescription("タイマー（リマインダー）を設定します")
@@ -462,6 +469,7 @@ export const timerCommand = new SlashCommandBuilder()
       ),
   );
 
+// --- ステータス表示 ---
 export const watchingCommand = new SlashCommandBuilder()
   .setName("watching")
   .setDescription("視聴中ステータス（○○を視聴中）を設定します")
@@ -487,6 +495,7 @@ export const watchingCommand = new SlashCommandBuilder()
       .setDescription("視聴中ステータスを既定（まぶさばを見守り中）に戻します"),
   );
 
+// --- その他 ---
 export const pingCommand = new SlashCommandBuilder()
   .setName("ping")
   .setDescription("まぶさばボットの応答状態を確認します");

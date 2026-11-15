@@ -133,6 +133,7 @@ export async function handleRankCommand(
   );
 }
 
+// --- ランキング ---
 export async function handleLeaderboardCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -172,6 +173,7 @@ export async function handleLeaderboardCommand(
   );
 }
 
+// --- レベル管理と報酬 ---
 export async function handleLevelCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -197,6 +199,8 @@ export async function handleLevelCommand(
     return;
   }
   // The reward subcommand group has add / list / remove.
+
+  // --- 報酬サブコマンド ---
   const rewardSub = interaction.options.getSubcommand(true);
   if (rewardSub === "list") {
     const rewards = store.getLevelRewards(guildId);

@@ -200,6 +200,7 @@ export async function handleRecruitCommand(
   );
 }
 
+// --- 参加・不参加ボタン ---
 export async function handleRecruitButton(
   interaction: ButtonInteraction,
   store: MabusabaStore,

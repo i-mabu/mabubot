@@ -125,6 +125,8 @@ export async function handleModCommand(
   const group = interaction.options.getSubcommandGroup(false);
 
   // /mod log is a subcommand group (set / disable).
+
+  // --- ログ設定 ---
   if (group === "log") {
     if (
       !(await requirePerm(
@@ -156,6 +158,8 @@ export async function handleModCommand(
   }
 
   // /mod warn is a subcommand group (add / list).
+
+  // --- 警告 ---
   if (group === "warn") {
     if (
       !(await requirePerm(
@@ -210,6 +214,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- タイムアウト ---
   if (sub === "timeout") {
     if (
       !(await requirePerm(
@@ -274,6 +279,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- タイムアウト解除 ---
   if (sub === "untimeout") {
     if (
       !(await requirePerm(
@@ -324,6 +330,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- キック ---
   if (sub === "kick") {
     if (
       !(await requirePerm(
@@ -377,6 +384,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- バン ---
   if (sub === "ban") {
     if (
       !(await requirePerm(
@@ -428,6 +436,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- バン解除 ---
   if (sub === "unban") {
     if (
       !(await requirePerm(
@@ -466,6 +475,7 @@ export async function handleModCommand(
     return;
   }
 
+  // --- メッセージ一括削除 ---
   if (sub === "clear") {
     if (
       !(await requirePerm(

@@ -82,6 +82,7 @@ export interface TimerRow {
 export class MabusabaStore {
   private db: DatabaseSync;
 
+  // --- 初期化 ---
   constructor(dataDir: string) {
     mkdirSync(dataDir, { recursive: true });
     this.db = new DatabaseSync(join(dataDir, "mabusaba.db"));
@@ -207,6 +208,8 @@ export class MabusabaStore {
   }
 
   // --- settings (bot-wide) ---
+
+  // --- 設定 ---
   getSetting(key: string): string | null {
     const row = this.db
       .prepare("SELECT value FROM settings WHERE key = ?")
@@ -228,6 +231,8 @@ export class MabusabaStore {
   }
 
   // --- welcome ---
+
+  // --- ウェルカム・自動ロール ---
   getWelcome(guildId: string): WelcomeRow | null {
     const row = this.db
       .prepare(
@@ -284,6 +289,8 @@ export class MabusabaStore {
   }
 
   // --- XP / levels ---
+
+  // --- XP・レベル ---
   getXp(guildId: string, userId: string): XpRow | null {
     const row = this.db
       .prepare(
@@ -368,6 +375,8 @@ export class MabusabaStore {
   }
 
   // --- level rewards ---
+
+  // --- レベル報酬 ---
   getLevelRewards(guildId: string): LevelRewardRow[] {
     return this.db
       .prepare(
@@ -392,6 +401,8 @@ export class MabusabaStore {
   }
 
   // --- warns ---
+
+  // --- 警告 ---
   addWarn(
     guildId: string,
     userId: string,
@@ -425,6 +436,8 @@ export class MabusabaStore {
   }
 
   // --- mod log channel ---
+
+  // --- モデレーションログ ---
   getModLog(guildId: string): string | null {
     const row = this.db
       .prepare("SELECT channel_id FROM mod_log WHERE guild_id = ?")
@@ -446,6 +459,8 @@ export class MabusabaStore {
   }
 
   // --- polls ---
+
+  // --- 投票 ---
   createPoll(poll: Omit<PollRow, "closed">): void {
     this.db
       .prepare(
@@ -517,6 +532,8 @@ export class MabusabaStore {
   }
 
   // --- recruits ---
+
+  // --- 募集 ---
   createRecruit(recruit: Omit<RecruitRow, "closed">): void {
     this.db
       .prepare(
@@ -578,6 +595,8 @@ export class MabusabaStore {
   }
 
   // --- timers ---
+
+  // --- タイマー ---
   createTimer(timer: TimerRow): void {
     this.db
       .prepare(
@@ -615,6 +634,7 @@ export class MabusabaStore {
     this.db.prepare("DELETE FROM timers WHERE id = ?").run(id);
   }
 
+  // --- 終了処理 ---
   close(): void {
     this.db.close();
   }

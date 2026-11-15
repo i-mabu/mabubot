@@ -139,6 +139,7 @@ export async function handleGameCommand(
     }).catch(() => undefined);
   };
 
+  // --- じゃんけん ---
   if (sub === "janken") {
     const choice = interaction.options.getString(
       "choice",
@@ -163,6 +164,7 @@ export async function handleGameCommand(
     return;
   }
 
+  // --- コイン ---
   if (sub === "coin") {
     const heads = Math.random() < 0.5;
     await replyEmbed(
@@ -175,6 +177,7 @@ export async function handleGameCommand(
     return;
   }
 
+  // --- スロット ---
   if (sub === "slot") {
     const { symbols, win, jackpot } = slotResult();
     const line = symbols.join(" | ");
@@ -189,6 +192,7 @@ export async function handleGameCommand(
     return;
   }
 
+  // --- 数当てゲーム ---
   if (group === "number") {
     // /game number is a subcommand group: start / guess.
     const leaf = interaction.options.getSubcommand(true);

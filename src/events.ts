@@ -63,12 +63,14 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
   }, 10 * 60_000);
   prune.unref();
 
+  // --- メンバー参加（ウェルカム・自動ロール） ---
   client.on("guildMemberAdd", async (member) => {
     if (member.user.bot) return;
     await sendWelcome(member, store);
     await applyAutorole(member, store);
   });
 
+  // --- メッセージ（スパム対策・XP） ---
   client.on("messageCreate", async (message: Message) => {
     if (!message.guildId || !message.guild || message.author.bot) return;
     if (message.channel.type !== ChannelType.GuildText) return;
@@ -170,6 +172,7 @@ export function registerEvents(client: Client, store: MabusabaStore): void {
     ).catch(() => undefined);
   });
 
+  // --- ボタン操作（投票・募集） ---
   client.on("interactionCreate", async (interaction) => {
     if (!interaction.isButton()) return;
     try {

@@ -184,6 +184,7 @@ export async function handleWelcomeCommand(
   );
 }
 
+// --- 自動ロールのコマンド処理 ---
 export async function handleAutoroleCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,

@@ -90,6 +90,8 @@ export async function handleTimerCommand(
     return;
   }
   const sub = interaction.options.getSubcommand();
+
+  // --- 一覧 ---
   if (sub === "list") {
     const timers = store.listTimers(guildId);
     if (!timers.length) {
@@ -113,6 +115,8 @@ export async function handleTimerCommand(
     );
     return;
   }
+
+  // --- キャンセル ---
   if (sub === "cancel") {
     const id = interaction.options.getString("id", true).trim();
     const timer = store.getTimer(id);
