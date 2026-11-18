@@ -4,14 +4,14 @@
 
 ## 1. ワークフロー構成
 
-| ワークフロー | ファイル | トリガー | 役割 |
-| --- | --- | --- | --- |
-| mabubot CI | `.github/workflows/ci.yml` | main への push / pull_request（ドキュメントのみの変更を除く） | 検証（チェックのみ。コードは変更しない） |
-| Format (auto-fix) | `.github/workflows/format.yml` | main への push / 手動実行 | フォーマッタの自動適用と自動コミット |
-| CodeQL | `.github/workflows/codeql.yml` | main への push / pull_request（対象パスの変更時のみ） / 毎週月曜 03:00 UTC | 静的セキュリティ解析 |
-| Stale | `.github/workflows/stale.yml` | 毎週月曜 03:00 UTC / 手動実行 | 90日間動きのない Issue / PR に stale ラベルを付け、さらに30日で自動クローズ |
-| Lock Threads | `.github/workflows/lock-threads.yml` | 毎週月曜 04:00 UTC / 手動実行 | クローズ / マージから30日経った Issue / PR を自動でロック |
-| Release Drafter | `.github/workflows/release-drafter.yml` | main への push / pull_request | マージされた PR からリリースノートの下書きを自動更新 |
+| ワークフロー      | ファイル                                | トリガー                                                                   | 役割                                                                        |
+| ----------------- | --------------------------------------- | -------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| mabubot CI        | `.github/workflows/ci.yml`              | main への push / pull_request（ドキュメントのみの変更を除く）              | 検証（チェックのみ。コードは変更しない）                                    |
+| Format (auto-fix) | `.github/workflows/format.yml`          | main への push / 手動実行                                                  | フォーマッタの自動適用と自動コミット                                        |
+| CodeQL            | `.github/workflows/codeql.yml`          | main への push / pull_request（対象パスの変更時のみ） / 毎週月曜 03:00 UTC | 静的セキュリティ解析                                                        |
+| Stale             | `.github/workflows/stale.yml`           | 毎週月曜 03:00 UTC / 手動実行                                              | 90日間動きのない Issue / PR に stale ラベルを付け、さらに30日で自動クローズ |
+| Lock Threads      | `.github/workflows/lock-threads.yml`    | 毎週月曜 04:00 UTC / 手動実行                                              | クローズ / マージから30日経った Issue / PR を自動でロック                   |
+| Release Drafter   | `.github/workflows/release-drafter.yml` | main への push / pull_request                                              | マージされた PR からリリースノートの下書きを自動更新                        |
 
 すべてのワークフロー共通の方針:
 
@@ -44,10 +44,10 @@
 
 ## 5. 整形ルールと自動化
 
-| 対象 | ツール | 設定 |
-| --- | --- | --- |
+| 対象                           | ツール                                  | 設定                                                                                                                                            |
+| ------------------------------ | --------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
 | TypeScript / JSON / CJS / YAML | Prettier 3.10.1（devDependency に固定） | リポジトリ直下の `.prettierrc.json`。二重引用符・セミコロンあり・インデント2スペース・`printWidth` 80（既存コードの実測スタイルに合わせたもの） |
-| 全般 | `.editorconfig` | 文字コード・改行コード・インデントの宣言 |
+| 全般                           | `.editorconfig`                         | 文字コード・改行コード・インデントの宣言                                                                                                        |
 
 - `scripts/format.sh`（Windows は `scripts/format.ps1`）を実行すると、Prettier を一括で適用します。
 - `.github/workflows/format.yml` は、main への push と手動実行（workflow_dispatch）のときに同じ整形を自動実行し、差分があれば `github-actions[bot]` が自動コミットします（メッセージに `[skip ci]` 付き）。
