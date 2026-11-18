@@ -37,6 +37,27 @@ export function numberGameExpired(game: NumberGame, now = Date.now()): boolean {
   return now - game.startedAtMs > NUMBER_GAME_TTL_MS;
 }
 
+// The +30 XP reward for winning the number game has its own
+// per-user cooldown: hint-assisted binary search can win a game in
+// a few guesses, so without it the reward could be farmed back to
+// back. Playing (and winning) is never blocked — only the XP grant
+// is. The cooldown lives in the store (kind below), separate from
+// the per-message XP cooldown, and is scoped per guild + user like
+// XP itself (switching channels does not reset it).
+export const NUMBER_GAME_XP_COOLDOWN_MS = 10 * 60_000;
+export const NUMBER_GAME_XP_COOLDOWN_KIND = "number_game_xp";
+
+// Milliseconds until the number-game XP can be granted again
+// (0 when it can be granted now).
+export function numberGameXpCooldownRemainingMs(
+  lastAwardedAtMs: number | null,
+  now = Date.now(),
+): number {
+  if (lastAwardedAtMs === null) return 0;
+  const remaining = NUMBER_GAME_XP_COOLDOWN_MS - (now - lastAwardedAtMs);
+  return remaining > 0 ? remaining : 0;
+}
+
 // Returns the live game for a key, dropping (and reporting) an
 // expired one so a fresh game can be started.
 function takeActiveGame(key: string): NumberGame | undefined {
@@ -121,7 +142,8 @@ export async function handleGameCommand(
   const group = interaction.options.getSubcommandGroup(false);
   const sub = interaction.options.getSubcommand();
 
-  // Wins grant +10 XP (number guessing: +30 XP on a correct guess).
+  // Wins grant +10 XP (number guessing: +30 XP on a correct guess,
+  // with a 10-minute per-user cooldown on that XP — see 5.4).
   // Game XP must not reset the per-message XP cooldown.
   const grantWinXp = async (): Promise<void> => {
     await awardXp(client, store, guild, channel, interaction.user.id, 10, {
@@ -232,12 +254,36 @@ export async function handleGameCommand(
     const left = game.maxAttempts - game.attempts;
     if (guess === game.answer) {
       numberGames.delete(key);
+      const xpRemainingMs = numberGameXpCooldownRemainingMs(
+        store.getCooldownLastAt(
+          guildId,
+          interaction.user.id,
+          NUMBER_GAME_XP_COOLDOWN_KIND,
+        ),
+      );
+      if (xpRemainingMs > 0) {
+        // On cooldown: the win still counts, but no XP is granted.
+        const minutes = Math.ceil(xpRemainingMs / 60_000);
+        await replyEmbed(
+          interaction,
+          "🎉 正解！",
+          `正解は **${game.answer}** でした！ ${game.attempts}回目で当てました。\n⏳ 数当てゲームのXPはクールダウン中（あと約${minutes}分）のため、今回はXPは付与されませんでした。`,
+          EMBED_COLOR_SUCCESS,
+          false,
+        );
+        return;
+      }
       await replyEmbed(
         interaction,
         "🎉 正解！",
         `正解は **${game.answer}** でした！ ${game.attempts}回目で当てました。\n+30 XP を獲得しました！`,
         EMBED_COLOR_SUCCESS,
         false,
+      );
+      store.recordCooldown(
+        guildId,
+        interaction.user.id,
+        NUMBER_GAME_XP_COOLDOWN_KIND,
       );
       await awardXp(client, store, guild, channel, interaction.user.id, 30, {
         touchCooldown: false,

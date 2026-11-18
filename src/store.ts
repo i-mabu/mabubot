@@ -193,6 +193,13 @@ export class MabusabaStore {
         fires_at_ms INTEGER NOT NULL,
         created_at_ms INTEGER NOT NULL
       );
+      CREATE TABLE IF NOT EXISTS cooldowns (
+        guild_id TEXT NOT NULL,
+        user_id TEXT NOT NULL,
+        kind TEXT NOT NULL,
+        last_at_ms INTEGER NOT NULL,
+        PRIMARY KEY (guild_id, user_id, kind)
+      );
       CREATE INDEX IF NOT EXISTS idx_warns_guild_user ON warns (guild_id, user_id);
       CREATE INDEX IF NOT EXISTS idx_xp_guild_xp ON xp_users (guild_id, xp DESC);
       CREATE INDEX IF NOT EXISTS idx_polls_open ON polls (closed, ends_at_ms);
@@ -331,6 +338,39 @@ export class MabusabaStore {
     };
     this.setXp(after);
     return { before, after };
+  }
+
+  // Generic per-user cooldown timestamps, keyed by a caller-chosen
+  // `kind`. Kept separate from xp_users.last_xp_at_ms: that column is
+  // specifically the per-message XP cooldown, and rewards with their
+  // own cooldown (e.g. the number-guessing game's XP) must not move
+  // it — the same reason game wins pass `touchCooldown: false` to
+  // addXp.
+  getCooldownLastAt(
+    guildId: string,
+    userId: string,
+    kind: string,
+  ): number | null {
+    const row = this.db
+      .prepare(
+        "SELECT last_at_ms FROM cooldowns WHERE guild_id = ? AND user_id = ? AND kind = ?",
+      )
+      .get(guildId, userId, kind) as { last_at_ms: number } | undefined;
+    return row?.last_at_ms ?? null;
+  }
+
+  recordCooldown(
+    guildId: string,
+    userId: string,
+    kind: string,
+    now: number = Date.now(),
+  ): void {
+    this.db
+      .prepare(
+        `INSERT INTO cooldowns (guild_id, user_id, kind, last_at_ms) VALUES (?, ?, ?, ?)
+         ON CONFLICT(guild_id, user_id, kind) DO UPDATE SET last_at_ms = excluded.last_at_ms`,
+      )
+      .run(guildId, userId, kind, now);
   }
 
   setLevel(guildId: string, userId: string, level: number): void {

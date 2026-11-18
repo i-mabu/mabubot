@@ -16,7 +16,10 @@ import {
 import {
   jankenWinner,
   numberGameExpired,
+  numberGameXpCooldownRemainingMs,
   NUMBER_GAME_TTL_MS,
+  NUMBER_GAME_XP_COOLDOWN_KIND,
+  NUMBER_GAME_XP_COOLDOWN_MS,
 } from "../games.js";
 import { MabusabaStore } from "../store.js";
 
@@ -298,6 +301,62 @@ describe("store (SQLite)", () => {
       store.addXp("g1", "u1", 10, { now: 2_000_000, touchCooldown: false });
       assert.equal(store.getXp("g1", "u1")?.last_xp_at_ms, 1_000_000);
       assert.equal(store.getXp("g1", "u1")?.xp, 30);
+    } finally {
+      store.close();
+    }
+  });
+});
+
+// ===== 11. 数当てゲームXPのクールダウン =====
+describe("number game XP cooldown", () => {
+  it("is 10 minutes and available when never awarded", () => {
+    assert.equal(NUMBER_GAME_XP_COOLDOWN_MS, 10 * 60_000);
+    assert.equal(numberGameXpCooldownRemainingMs(null, NOW), 0);
+  });
+
+  it("blocks re-award until 10 minutes have passed", () => {
+    // Just awarded: the full cooldown remains.
+    assert.equal(
+      numberGameXpCooldownRemainingMs(NOW, NOW),
+      NUMBER_GAME_XP_COOLDOWN_MS,
+    );
+    // 4 minutes later: 6 minutes remain.
+    assert.equal(
+      numberGameXpCooldownRemainingMs(NOW, NOW + 4 * 60_000),
+      6 * 60_000,
+    );
+    // Exactly at the boundary and beyond: available again.
+    assert.equal(
+      numberGameXpCooldownRemainingMs(NOW, NOW + NUMBER_GAME_XP_COOLDOWN_MS),
+      0,
+    );
+    assert.equal(
+      numberGameXpCooldownRemainingMs(
+        NOW,
+        NOW + NUMBER_GAME_XP_COOLDOWN_MS + 1,
+      ),
+      0,
+    );
+  });
+
+  it("round-trips through the store, scoped by guild, user and kind", () => {
+    const dir = mkdtempSync(join(tmpdir(), "mabusaba-test-"));
+    const store = new MabusabaStore(dir);
+    try {
+      const kind = NUMBER_GAME_XP_COOLDOWN_KIND;
+      assert.equal(store.getCooldownLastAt("g1", "u1", kind), null);
+      store.recordCooldown("g1", "u1", kind, NOW);
+      assert.equal(store.getCooldownLastAt("g1", "u1", kind), NOW);
+      // Other guilds, users and kinds are unaffected.
+      assert.equal(store.getCooldownLastAt("g2", "u1", kind), null);
+      assert.equal(store.getCooldownLastAt("g1", "u2", kind), null);
+      assert.equal(store.getCooldownLastAt("g1", "u1", "other"), null);
+      // Recording again restarts the cooldown from the new time.
+      store.recordCooldown("g1", "u1", kind, NOW + 1000);
+      assert.equal(store.getCooldownLastAt("g1", "u1", kind), NOW + 1000);
+      // The cooldown is independent of the XP row and of the
+      // per-message XP cooldown timestamp.
+      assert.equal(store.getXp("g1", "u1"), null);
     } finally {
       store.close();
     }
