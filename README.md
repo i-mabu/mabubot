@@ -225,3 +225,23 @@ DISCORD_TOKEN=<旧トークン> DISCORD_APPLICATION_ID=<旧アプリケーショ
 - `src/watching.ts` — 視聴中ステータス
 - `src/events.ts` — GuildMemberAdd・messageCreate（XP＋荒らし対策）・ボタン処理
 - `src/test/util.test.ts` — XP計算・期間解析・時刻解析・じゃんけん・ストアのテスト
+
+## 👥 Contributors
+
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore-start -->
+<!-- markdownlint-disable -->
+<table>
+  <tbody>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/i-mabu"><img src="https://avatars.githubusercontent.com/u/356833989?v=4?s=100" width="100px;" alt="i-mabu"/><br /><sub><b>i-mabu</b></sub></a><br /><a href="https://github.com/i-mabu/mabubot/commits?author=i-mabu" title="Code">💻</a></td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- markdownlint-restore -->
+<!-- prettier-ignore-end -->
+
+<!-- ALL-CONTRIBUTORS-LIST:END -->
