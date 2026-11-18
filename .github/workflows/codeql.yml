@@ -37,26 +37,26 @@ jobs:
       security-events: write
       actions: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Initialize CodeQL
-        uses: github/codeql-action/init@v3
+        uses: github/codeql-action/init@v4
         with:
           languages: javascript-typescript
       - name: Autobuild
-        uses: github/codeql-action/autobuild@v3
+        uses: github/codeql-action/autobuild@v4
       # Code scanning (Advanced Security) is only available for Organizations,
       # so it cannot be enabled on this personal private repository. Uploading
       # results therefore always failed; save the SARIF as an artifact instead.
       # If this repo moves to an Organization, drop "upload"/"output" below and
       # the artifact step, and results will go back to the Security tab.
       - name: Perform CodeQL Analysis
-        uses: github/codeql-action/analyze@v3
+        uses: github/codeql-action/analyze@v4
         with:
           category: /language:javascript-typescript
           upload: never
           output: codeql-results
       - name: Upload CodeQL results (SARIF artifact)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: codeql-sarif-javascript-typescript-${{ github.sha }}
           path: codeql-results
