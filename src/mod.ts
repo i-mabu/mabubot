@@ -48,9 +48,9 @@ function requireGuild(interaction: ChatInputCommandInteraction): string | null {
   return interaction.guildId;
 }
 
-// Runtime permission check: default_member_permissions on the
-// command only sets the loosest gate (ModerateMembers), so each
-// subcommand enforces its own stricter permission here.
+// Runtime permission check: /mod has no command-wide
+// default_member_permissions (each subcommand needs a different
+// permission), so each subcommand enforces its own permission here.
 async function requirePerm(
   interaction: ChatInputCommandInteraction,
   perm: bigint,

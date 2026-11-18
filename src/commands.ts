@@ -213,9 +213,12 @@ export const gameCommand = new SlashCommandBuilder()
 export const modCommand = new SlashCommandBuilder()
   .setName("mod")
   .setDescription("モデレーション（警告・タイムアウト・キック・BAN・削除）")
-  // Loosest gate of the group; each subcommand enforces its own
-  // stricter permission at runtime (see mod.ts).
-  .setDefaultMemberPermissions(PermissionFlagsBits.ModerateMembers)
+  // No command-wide default_member_permissions: the subcommands each
+  // need a different permission (warn/timeout: ModerateMembers, kick:
+  // KickMembers, ban/unban: BanMembers, clear/log: ManageGuild), so
+  // any single gate would hide /mod from moderators who hold only one
+  // of them. Each subcommand enforces its own permission at runtime
+  // (see mod.ts).
   .addSubcommandGroup((group) =>
     group
       .setName("warn")
