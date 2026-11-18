@@ -73,12 +73,11 @@ export function relativeTimestamp(ms: number): string {
   return `<t:${Math.floor(ms / 1000)}:R>`;
 }
 
+// ----- 3.1 期間のパース -----
 // Duration parsing for /mod timeout etc.
 // Accepts: `30s` / `10m` / `1h` / `1d` / `1w`, Japanese
 // `30秒` / `10分` / `2時間` / `3日` / `1週間`, and combinations
 // like `1時間30分` / `1d12h`. Returns ms, or null when unusable.
-
-// ----- 3.1 期間のパース -----
 export function parseDurationMs(input: string): number | null {
   const text = input
     .trim()
@@ -171,6 +170,7 @@ function jstToMs(
   return ms;
 }
 
+// ----- 4.1 時刻入力のパース -----
 // Future-time parsing for /recruit and /timer (all Japan time).
 // Accepted forms:
 //   - Relative future: `30分後`, `2時間後`, `1時間30分後`, `3日後`
@@ -178,8 +178,6 @@ function jstToMs(
 //   - Date and time: `2026-11-14 21:00`, `2026/11/14 21:00`, `11-14 21:00`
 //   - ISO 8601: `2026-11-14T21:00:00+09:00`
 // Returns the epoch ms, or null when unusable or not in the future.
-
-// ----- 4.1 時刻入力のパース -----
 export function parseTimeInput(input: string, now = Date.now()): number | null {
   const text = input
     .trim()

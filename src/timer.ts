@@ -147,6 +147,7 @@ export async function handleTimerCommand(
     );
     return;
   }
+  // ----- 3.3 設定 -----
   // set — minutes (required) comes before message (required).
   const minutes = interaction.options.getInteger("minutes", true);
   const message = interaction.options.getString("message", true).trim();

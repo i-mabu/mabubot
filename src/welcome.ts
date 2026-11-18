@@ -55,9 +55,8 @@ export async function sendWelcome(
   await channel.send({ embeds: [embed] }).catch(() => undefined);
 }
 
-// Maximum autoroles per guild, to keep the list sane.
-
 // ===== 3. 自動ロール =====
+// Maximum autoroles per guild, to keep the list sane.
 export const MAX_AUTOROLES = 10;
 
 // Apply the autoroles on GuildMemberAdd. Failures (missing

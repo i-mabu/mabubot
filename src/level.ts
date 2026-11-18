@@ -91,6 +91,7 @@ function progressBar(into: number, needed: number, width = 10): string {
 }
 
 // ===== 4. コマンド処理 =====
+// ----- 4.1 ランク -----
 export async function handleRankCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -125,7 +126,7 @@ export async function handleRankCommand(
   );
 }
 
-// ----- 4.1 ランキング -----
+// ----- 4.2 ランキング -----
 export async function handleLeaderboardCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -165,7 +166,7 @@ export async function handleLeaderboardCommand(
   );
 }
 
-// ----- 4.2 レベル管理と報酬 -----
+// ----- 4.3 レベル管理と報酬 -----
 export async function handleLevelCommand(
   interaction: ChatInputCommandInteraction,
   store: MabusabaStore,
@@ -192,7 +193,7 @@ export async function handleLevelCommand(
   }
   // The reward subcommand group has add / list / remove.
 
-  // ----- 4.3 報酬サブコマンド -----
+  // ----- 4.3.1 報酬サブコマンド -----
   const rewardSub = interaction.options.getSubcommand(true);
   if (rewardSub === "list") {
     const rewards = store.getLevelRewards(guildId);

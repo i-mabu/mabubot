@@ -69,10 +69,9 @@ export interface TimerRow {
   created_at_ms: number;
 }
 
+// ===== 3. ストア本体 =====
 // SQLite store for the whole bot (Node built-in node:sqlite, no
 // native dependency). One file: data/mabusaba.db
-
-// ===== 3. ストア本体 =====
 export class MabusabaStore {
   private db: DatabaseSync;
 

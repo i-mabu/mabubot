@@ -170,10 +170,9 @@ export async function handlePollCommand(
   );
 }
 
+// ----- 4.1 投票ボタン -----
 // Button votes: one vote per person, changeable. The embed updates
 // immediately with the new counts.
-
-// ----- 4.1 投票ボタン -----
 export async function handlePollButton(
   interaction: ButtonInteraction,
   store: MabusabaStore,
