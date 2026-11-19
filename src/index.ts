@@ -8,6 +8,7 @@ import { reschedulePolls } from "./poll.js";
 import { rescheduleRecruits } from "./recruit.js";
 import { rescheduleTimers } from "./timer.js";
 import { EMBED_COLOR_ERROR, EMBED_FOOTER } from "./util.js";
+import { attachReadyWatchdog } from "./watchdog.js";
 
 // ===== 2. 初期化 =====
 const token = process.env.DISCORD_TOKEN?.trim();
@@ -38,6 +39,9 @@ const client = new Client({
     Partials.User,
   ],
 });
+
+// Gateway安全構造: READY が来ないサイレント停滞を検知して終了する (watchdog.ts)
+attachReadyWatchdog(client);
 
 // ===== 3. 起動時の処理 =====
 client.once("ready", () => {
